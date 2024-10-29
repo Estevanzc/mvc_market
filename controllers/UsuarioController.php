@@ -7,12 +7,20 @@ use Model\VO\UsuarioVO;
 
 final class UsuarioController extends Controller {
 
+    public function __construct($obriga_login = false) {
+        parent::__construct($obriga_login);
+        if ($_SESSION["usuario"]->getNivel() < 2) {
+            $this->redirect("index.php");
+            exit();
+        }
+    }
+
     public function list() {
         $model = new UsuarioModel();
         $data = $model->selectAll(new UsuarioVO());
 
         $this->loadView("listaUsuarios", [
-            "usarios" => $data
+            "usuarios" => $data
         ]);
     }
 
@@ -22,13 +30,13 @@ final class UsuarioController extends Controller {
         if(!empty($id)) {
             $model = new UsuarioModel();
             $vo = new UsuarioVO($id);
-            $usario = $model->selectOne($vo);
+            $usuario = $model->selectOne($vo);
         } else {
-            $usario = new UsuarioVO();
+            $usuario = new UsuarioVO();
         }
 
         $this->loadView("formUsuario", [
-            "usario" => $usario
+            "usuario" => $usuario
         ]);
     }
 
@@ -44,7 +52,7 @@ final class UsuarioController extends Controller {
             $result = $model->update($vo);
         }
 
-        $this->redirect("usarios.php");
+        $this->redirect("usuarios.php");
     }
 
     public function remove() {
@@ -54,7 +62,7 @@ final class UsuarioController extends Controller {
 
         $result = $model->delete($vo);
 
-        $this->redirect("usarios.php");
+        $this->redirect("usuarios.php");
     }
 
 }

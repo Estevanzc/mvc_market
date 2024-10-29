@@ -3,6 +3,7 @@
 namespace Model;
 
 use Model\VO\UsuarioVO;
+use Controller\UsuarioController;
 
 final class UsuarioModel extends Model {
 
@@ -78,10 +79,22 @@ final class UsuarioModel extends Model {
         $db = new Connection();
         $query = "DELETE FROM usuarios WHERE id = :id";
         $binds = ["id" => $vo->getId()];
+        (new UsuarioController())->deleteFile(($this->selectOne($vo->getId()))->getFoto());
 
         return $db->execute($query, $binds);
     }
-
-
-
+    public function doLogin($vo) {
+        $db = new Connection();
+        $query = "SELECT * FROM usuarios WHERE login=:login and senha=:senha";
+        $binds = [
+            "login" => $vo->getLogin(),
+            "senha" => md5($vo->getSenha())
+        ];
+        $data = $db->select($query, $binds);
+        if (count($data) == 0) {
+            return null;
+        }
+        $_SESSION["usuario"] = new UsuarioVO($data[0]["id"],$data[0]["login"], $data[0]["senha"], $data[0]["nivel"], $data[0]["foto"]);
+        return $_SESSION["usuario"];
+    }
 }
