@@ -82,8 +82,8 @@
                             <td class="text-center"><?php echo($produto->getPreco())?></td>
                             <td class="text-center"><?php echo($produto->getId_categorias())?></td>
                             <td class="text-center"><?php echo($produto->getFoto())?></td>
-                            <td class="transition-all hover:bg-[#99B5C9]"><a href="produto.php?<?php echo($produto->getId());?>" class="w-full h-full flex justify-center items-center transition-all hover:text-blue-500"><i class="fa-solid fa-pen"></i></a></td>
-                            <td class="transition-all hover:bg-[#99B5C9]"><a href="excluirProduto.php?<?php echo($produto->getId());?>" class="w-full h-full flex justify-center items-center transition-all hover:text-red-500"><i class="fa-solid fa-trash"></i></a></td>
+                            <td class="transition-all hover:bg-[#99B5C9]"><a href="produto.php?id=<?php echo($produto->getId());?>" class="w-full h-full flex justify-center items-center transition-all hover:text-blue-500"><i class="fa-solid fa-pen"></i></a></td>
+                            <td class="transition-all hover:bg-[#99B5C9]"><a href="excluirProduto.php?id=<?php echo($produto->getId());?>" class="w-full h-full flex justify-center items-center transition-all hover:text-red-500"><i class="fa-solid fa-trash"></i></a></td>
                         </tr>
                         <?php
                         $counter ++;
