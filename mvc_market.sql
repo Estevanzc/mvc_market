@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `mvc_market` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci */;
 USE `mvc_market`;
--- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.36, for Win64 (x86_64)
 --
 -- Host: localhost    Database: mvc_market
 -- ------------------------------------------------------
--- Server version	5.5.5-10.4.28-MariaDB
+-- Server version	5.5.5-10.4.32-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -29,7 +29,7 @@ CREATE TABLE `pro_categorias` (
   `nome` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nome` (`nome`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,7 @@ CREATE TABLE `pro_categorias` (
 
 LOCK TABLES `pro_categorias` WRITE;
 /*!40000 ALTER TABLE `pro_categorias` DISABLE KEYS */;
-INSERT INTO `pro_categorias` VALUES (4,'Books'),(2,'Clothing'),(1,'Electronics'),(3,'Home & Kitchen'),(5,'Toys & Games');
+INSERT INTO `pro_categorias` VALUES (6,'asdasd'),(4,'Books'),(2,'Clothing'),(1,'Electronics'),(3,'Home & Kitchen'),(5,'Toys & Games');
 /*!40000 ALTER TABLE `pro_categorias` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -54,12 +54,12 @@ CREATE TABLE `produtos` (
   `nome` varchar(255) NOT NULL,
   `descricao` text NOT NULL,
   `preco` decimal(5,2) NOT NULL,
-  `foto` varchar(255) NOT NULL,
+  `foto` varchar(255) DEFAULT NULL,
   `id_categorias` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_categorias` (`id_categorias`),
   CONSTRAINT `produtos_ibfk_1` FOREIGN KEY (`id_categorias`) REFERENCES `pro_categorias` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -68,7 +68,7 @@ CREATE TABLE `produtos` (
 
 LOCK TABLES `produtos` WRITE;
 /*!40000 ALTER TABLE `produtos` DISABLE KEYS */;
-INSERT INTO `produtos` VALUES (1,'Smartphone','Latest model smartphone with high performance',999.99,'smartphone.jpg',1),(2,'T-Shirt','Cotton T-shirt available in various sizes',19.99,'tshirt.jpg',2),(3,'Blender','High-speed blender for smoothies and soups',49.99,'blender.jpg',3),(4,'Mystery Novel','An intriguing mystery novel',14.99,'mystery_novel.jpg',4),(5,'Mystery Novel','An intriguing mystery novel',14.99,'mystery_novel.jpg',4);
+INSERT INTO `produtos` VALUES (1,'Smartphone','Latest model smartphone with high performance',999.99,'',1),(2,'T-Shirt','Cotton T-shirt available in various sizes',19.99,'',2),(3,'Blender','High-speed blender for smoothies and soups',49.99,'',3),(4,'Mystery Novel','An intriguing mystery novel',14.99,'',4),(5,'Mystery Novel','An intriguing mystery novel',14.99,'',4);
 /*!40000 ALTER TABLE `produtos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -109,4 +109,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-10-25 17:19:19
+-- Dump completed on 2024-11-01 16:54:32

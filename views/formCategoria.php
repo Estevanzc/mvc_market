@@ -26,8 +26,8 @@
         </div>
         <a href="index.php" class="w-full h-16 flex justify-center items-center transition-all cursor-pointer drop-shadow-2xl hover:bg-[#235B83] hover:shadow-2xl active:bg-[#2B6F9F] text-base text-white font-semibold">Home</a>
         <a href="categorias.php" class="w-full h-16 flex justify-center items-center transition-all cursor-pointer drop-shadow-2xl hover:bg-[#235B83] hover:shadow-2xl active:bg-[#2B6F9F] text-base text-white font-semibold">Gerenciar Categorias</a>
-        <a href="produtos.php" class="w-full h-16 flex justify-center items-center transition-all cursor-pointer drop-shadow-2xl hover:bg-[#235B83] hover:shadow-2xl active:bg-[#2B6F9F] text-base text-white font-semibold">Gerenciar Produtos</a>
-        <a href="usuarios.php" class="w-full h-16 flex justify-center items-center transition-all cursor-pointer drop-shadow-2xl bg-[#235B83] shadow-2xl active:bg-[#2B6F9F] text-base text-white font-semibold">Gerenciar Usuários</a>
+        <a href="produtos.php" class="w-full h-16 flex justify-center items-center transition-all cursor-pointer drop-shadow-2xl bg-[#235B83] shadow-2xl active:bg-[#2B6F9F] text-base text-white font-semibold">Gerenciar Produtos</a>
+        <a href="usuarios.php" class="w-full h-16 flex justify-center items-center transition-all cursor-pointer drop-shadow-2xl hover:bg-[#235B83] hover:shadow-2xl active:bg-[#2B6F9F] text-base text-white font-semibold">Gerenciar Usuários</a>
     </aside>
     <section class="fixed z-10 top-0 w-screen h-16 flex justify-center items-center self-start bg-[#325975] shadow-2xl drop-shadow-2xl">
         <div class="w-1/4 h-full flex justify-center items-center">
@@ -49,45 +49,23 @@
             <a href="logout.php" class="w-10 h-10 flex justify-center items-center text-2xl rounded-lg text-white transition-all cursor-pointer hover:bg-[#5F86A0] active:bg-[#4E6D84]"><i class="fa-solid fa-right-from-bracket"></i></a>
         </div>
     </section>
-    <main class="mt-16 z-0 w-screen flex justify-center items-center flex-col">
+    <main class="mt-16 z-0 w-screen flex justify-center items-center flex-col gap-y-2">
         <div class="w-1/2 h-24 flex justify-center items-center flex-col gap-y-1">
             <h3 class="text-sm text-gray-800">Home</h3>
-            <h2 class=" text-4xl font-bold drop-shadow-2xl">Gerenciar Usuários</h2>
+            <h2 class=" text-4xl font-bold drop-shadow-2xl"><?php echo((empty($categoria->getId()) ? "Inserir" : "Editar"));?> Categorias</h2>
         </div>
-        <div class="w-1/3 h-10 mt-10 flex justify-end items-center">
-            <a href="usuario.php" class="px-5 h-full flex justify-center items-center rounded-sm transition-all cursor-pointer shadow-2xl drop-shadow-2xl hover:bg-[#709DBE] active:bg-[#81B6DB] text-sm text-white font-bold bg-[#5F85A0]">Inserir Usuário</a>
-        </div>
-        <div class="w-1/3 mt-1 flex justify-center items-center">
-            <table class="w-full border-collapse shadow-2xl drop-shadow-2xl">
-                <thead class="h-10 bg-[#5F85A2] text-white">
-                    <tr>
-                        <th class="w-[10%] text-center">ID</th>
-                        <th class="w-[30%] text-center">Login</th>
-                        <th class="w-[25%] text-center">Nivel de Acesso</th>
-                        <th class="w-[20%] text-center">Foto</th>
-                        <th colspan="2" class="w-[15%] text-center">Ações</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $counter = 1;
-                    foreach ($usuarios as $usuario) {
-                        ?>
-                        <tr class="h-9 bg-[<?php echo($counter % 2 == 0 ? "#96A7B9" : "#ADC1D6") ?>] transition-all cursor-pointer hover:bg-[#96A7B9]">
-                            <td class="text-center font-bold"><?php echo($usuario->getId())?></td>
-                            <td class="text-center"><?php echo($usuario->getLogin())?></td>
-                            <td class="text-center font-bold"><?php echo(["Cliente", "Funcionário"][$usuario->getNivel()-1])?></td>
-                            <td class="text-center"><?php echo(empty($usuario->getFoto()) ? "Empty" : $usuario->getFoto())?></td>
-                            <td class="transition-all hover:bg-[#99B5C9]"><a href="usuario.php?id=<?php echo($usuario->getId());?>" class="w-full h-full flex justify-center items-center transition-all hover:text-blue-500"><i class="fa-solid fa-pen"></i></a></td>
-                            <td class="transition-all hover:bg-[#99B5C9]"><a href="excluirUsuario.php?id=<?php echo($usuario->getId());?>" class="w-full h-full flex justify-center items-center transition-all hover:text-red-500"><i class="fa-solid fa-trash"></i></a></td>
-                        </tr>
-                        <?php
-                        $counter ++;
-                    }
-                    ?>
-                </tbody>
-            </table>
+        <div class="w-2/4 flex justify-center items-center">
+            <form action="salvarCategoria.php" method="post" enctype="multipart/form-data" class="w-1/2 flex justify-start items-center flex-col bg-[#BCCCD8] gap-y-0.5 rounded-lg shadow-2xl drop-shadow-2xl border-2 border-solid border-[#8A969E]">
+                <input type="hidden" id="id" name="id" value="<?php echo($categoria->getId());?>">
+                <div class="mt-3 w-full h-16 flex justify-evenly items-center flex-col">
+                    <label for="nome" class="self-start pl-7 text-sm font-bold">Nome da Categoria</label>
+                    <input type="text" name="nome" id="nome" value="<?php echo($categoria->getNome())?>" class="w-11/12 h-1/2 border-2 border-solid border-[#8A969E] text-sm px-2 outline-0">
+                </div>
+                <div class="w-full h-16 flex justify-around items-center">
+                    <button type="reset" class="w-1/3 py-2 text-sm font-bold bg-[#325975] text-white rounded-lg border-2 border-solid border-[#3F7092] transition-all cursor-pointer drop-shadow-2xl shadow-2xl hover:bg-[#3F7092] active:bg-[#4B85AE]">Clear</button>
+                    <button type="submit" class="w-1/3 py-2 text-sm font-bold bg-[#325975] text-white rounded-lg border-2 border-solid border-[#3F7092] transition-all cursor-pointer drop-shadow-2xl shadow-2xl hover:bg-[#3F7092] active:bg-[#4B85AE]">Submit</button>
+                </div>
+            </form>
         </div>
     </main>
     <script src="script/menu.js"></script>

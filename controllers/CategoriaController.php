@@ -3,16 +3,20 @@
 namespace Controller;
 
 use Model\CategoriaModel;
+use Model\ProdutoModel;
 use Model\VO\CategoriaVO;
+use Model\VO\ProdutoVO;
 
 final class CategoriaController extends Controller {
 
     public function list() {
         $model = new CategoriaModel();
         $data = $model->selectAll(new CategoriaVO());
+        $produto = (new ProdutoModel)->selectAll(new ProdutoVO());
 
         $this->loadView("listaCategorias", [
-            "categorias" => $data
+            "categorias" => $data,
+            "produtos" => $produto
         ]);
     }
 
@@ -27,7 +31,7 @@ final class CategoriaController extends Controller {
             $categoria = new CategoriaVO();
         }
 
-        $this->loadView("formCategorias", [
+        $this->loadView("formCategoria", [
             "categoria" => $categoria
         ]);
     }

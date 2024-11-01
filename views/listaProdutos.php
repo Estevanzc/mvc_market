@@ -55,7 +55,7 @@
             <h2 class=" text-4xl font-bold drop-shadow-2xl">Gerenciar Produtos</h2>
         </div>
         <div class="w-2/3 h-10 mt-10 flex justify-end items-center">
-            <a href="produto.php?id=0" class="px-5 h-full flex justify-center items-center rounded-sm transition-all cursor-pointer shadow-2xl drop-shadow-2xl hover:bg-[#709DBE] active:bg-[#81B6DB] text-sm text-white font-bold bg-[#5F85A0]">Inserir Produto</a>
+            <a href="produto.php" class="px-5 h-full flex justify-center items-center rounded-sm transition-all cursor-pointer shadow-2xl drop-shadow-2xl hover:bg-[#709DBE] active:bg-[#81B6DB] text-sm text-white font-bold bg-[#5F85A0]">Inserir Produto</a>
         </div>
         <div class="w-2/3 mt-1 flex justify-center items-center">
             <table class="w-full border-collapse shadow-2xl drop-shadow-2xl">
@@ -82,7 +82,7 @@
                             <td class="text-center truncate"><p class="max-w-72 truncate"><?php echo($produto->getDescricao())?></p></td>
                             <td class="text-center"><?php echo($produto->getPreco())?></td>
                             <td class="text-center"><?php echo($produto->getId_categorias())?></td>
-                            <td class="text-center"><?php echo($produto->getFoto())?></td>
+                            <td class="text-center"><?php echo(empty($produto->getFoto()) ? "Empty" : $produto->getFoto())?></td>
                             <td class="transition-all hover:bg-[#99B5C9]"><a href="produto.php?id=<?php echo($produto->getId());?>" class="w-full h-full flex justify-center items-center transition-all hover:text-blue-500"><i class="fa-solid fa-pen"></i></a></td>
                             <td class="transition-all hover:bg-[#99B5C9]"><a href="excluirProduto.php?id=<?php echo($produto->getId());?>" class="w-full h-full flex justify-center items-center transition-all hover:text-red-500"><i class="fa-solid fa-trash"></i></a></td>
                         </tr>

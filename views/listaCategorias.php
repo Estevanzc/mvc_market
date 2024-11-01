@@ -25,9 +25,9 @@
             </div>
         </div>
         <a href="index.php" class="w-full h-16 flex justify-center items-center transition-all cursor-pointer drop-shadow-2xl hover:bg-[#235B83] hover:shadow-2xl active:bg-[#2B6F9F] text-base text-white font-semibold">Home</a>
-        <a href="categorias.php" class="w-full h-16 flex justify-center items-center transition-all cursor-pointer drop-shadow-2xl hover:bg-[#235B83] hover:shadow-2xl active:bg-[#2B6F9F] text-base text-white font-semibold">Gerenciar Categorias</a>
+        <a href="categorias.php" class="w-full h-16 flex justify-center items-center transition-all cursor-pointer drop-shadow-2xl bg-[#235B83] shadow-2xl active:bg-[#2B6F9F] text-base text-white font-semibold">Gerenciar Categorias</a>
         <a href="produtos.php" class="w-full h-16 flex justify-center items-center transition-all cursor-pointer drop-shadow-2xl hover:bg-[#235B83] hover:shadow-2xl active:bg-[#2B6F9F] text-base text-white font-semibold">Gerenciar Produtos</a>
-        <a href="usuarios.php" class="w-full h-16 flex justify-center items-center transition-all cursor-pointer drop-shadow-2xl bg-[#235B83] shadow-2xl active:bg-[#2B6F9F] text-base text-white font-semibold">Gerenciar Usuários</a>
+        <a href="usuarios.php" class="w-full h-16 flex justify-center items-center transition-all cursor-pointer drop-shadow-2xl hover:bg-[#235B83] hover:shadow-2xl active:bg-[#2B6F9F] text-base text-white font-semibold">Gerenciar Usuários</a>
     </aside>
     <section class="fixed z-10 top-0 w-screen h-16 flex justify-center items-center self-start bg-[#325975] shadow-2xl drop-shadow-2xl">
         <div class="w-1/4 h-full flex justify-center items-center">
@@ -52,35 +52,47 @@
     <main class="mt-16 z-0 w-screen flex justify-center items-center flex-col">
         <div class="w-1/2 h-24 flex justify-center items-center flex-col gap-y-1">
             <h3 class="text-sm text-gray-800">Home</h3>
-            <h2 class=" text-4xl font-bold drop-shadow-2xl">Gerenciar Usuários</h2>
+            <h2 class=" text-4xl font-bold drop-shadow-2xl">Gerenciar Categorias</h2>
         </div>
         <div class="w-1/3 h-10 mt-10 flex justify-end items-center">
-            <a href="usuario.php" class="px-5 h-full flex justify-center items-center rounded-sm transition-all cursor-pointer shadow-2xl drop-shadow-2xl hover:bg-[#709DBE] active:bg-[#81B6DB] text-sm text-white font-bold bg-[#5F85A0]">Inserir Usuário</a>
+            <a href="categoria.php" class="px-5 h-full flex justify-center items-center rounded-sm transition-all cursor-pointer shadow-2xl drop-shadow-2xl hover:bg-[#709DBE] active:bg-[#81B6DB] text-sm text-white font-bold bg-[#5F85A0]">Inserir Categoria</a>
         </div>
         <div class="w-1/3 mt-1 flex justify-center items-center">
             <table class="w-full border-collapse shadow-2xl drop-shadow-2xl">
                 <thead class="h-10 bg-[#5F85A2] text-white">
                     <tr>
                         <th class="w-[10%] text-center">ID</th>
-                        <th class="w-[30%] text-center">Login</th>
-                        <th class="w-[25%] text-center">Nivel de Acesso</th>
-                        <th class="w-[20%] text-center">Foto</th>
-                        <th colspan="2" class="w-[15%] text-center">Ações</th>
+                        <th class="w-[70%] text-center">Nome</th>
+                        <th colspan="2" class="w-[20%] text-center">Ações</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
+                    function isFk($pros, $ca) {
+                        foreach ($pros as $pro) {
+                            if ($pro->getId_categorias() == $ca->getNome()) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
                     $counter = 1;
-                    foreach ($usuarios as $usuario) {
+                    foreach ($categorias as $categoria) {
                         ?>
                         <tr class="h-9 bg-[<?php echo($counter % 2 == 0 ? "#96A7B9" : "#ADC1D6") ?>] transition-all cursor-pointer hover:bg-[#96A7B9]">
-                            <td class="text-center font-bold"><?php echo($usuario->getId())?></td>
-                            <td class="text-center"><?php echo($usuario->getLogin())?></td>
-                            <td class="text-center font-bold"><?php echo(["Cliente", "Funcionário"][$usuario->getNivel()-1])?></td>
-                            <td class="text-center"><?php echo(empty($usuario->getFoto()) ? "Empty" : $usuario->getFoto())?></td>
-                            <td class="transition-all hover:bg-[#99B5C9]"><a href="usuario.php?id=<?php echo($usuario->getId());?>" class="w-full h-full flex justify-center items-center transition-all hover:text-blue-500"><i class="fa-solid fa-pen"></i></a></td>
-                            <td class="transition-all hover:bg-[#99B5C9]"><a href="excluirUsuario.php?id=<?php echo($usuario->getId());?>" class="w-full h-full flex justify-center items-center transition-all hover:text-red-500"><i class="fa-solid fa-trash"></i></a></td>
+                            <td class="text-center font-bold"><?php echo($categoria->getId())?></td>
+                            <td class="text-center"><?php echo($categoria->getNome())?></td>
+                            <td class="transition-all hover:bg-[#99B5C9]"><a href="categoria.php?id=<?php echo($categoria->getId());?>" class="w-full h-full flex justify-center items-center transition-all hover:text-blue-500"><i class="fa-solid fa-pen"></i></a></td>
+                            <td class="<?php if (!isFk($produtos, $categoria)) {echo ("transition-all hover:bg-[#99B5C9]");} ?>">
+                            <?php   
+                            if (!isFk($produtos, $categoria)) {
+                                ?>
+                                <a href="excluirCategoria.php?id=<?php echo($categoria->getId());?>" class="w-full h-full flex justify-center items-center transition-all hover:text-red-500"><i class="fa-solid fa-trash"></i></a>
+                                <?php
+                            }
+                            ?>
+                            </td>
                         </tr>
                         <?php
                         $counter ++;
