@@ -14,9 +14,8 @@ abstract class Controller {
         }
     }
     public function uploadFile($file, $old_file = "") {
-        if (!empty($old_file)) {
-            $this->deleteFile($old_file);
-        }
+        $this->deleteFile($old_file);
+        
         if (empty($file["name"])) {
             return "";
         }
@@ -26,8 +25,10 @@ abstract class Controller {
         return $nome_arquivo;
     }
     public function deleteFile($file_name) {
-        $path = "uploads/" . $file_name;
-        unlink($path);
+        if(!empty($file_name)) {
+            $path = "uploads/" . $file_name;
+            unlink($path);
+        }
     }
 
     public function redirect($url) {

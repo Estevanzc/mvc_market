@@ -63,7 +63,8 @@ final class ProdutoModel extends Model {
                 "nome" => $vo->getNome(),
                 "descricao" => $vo->getDescricao(),
                 "preco" => $vo->getPreco(),
-                "id_categorias" => $vo->getId_categorias()
+                "id_categorias" => $vo->getId_categorias(),
+                "id" => $vo->getId()
             ];
         } else {
             $query = "UPDATE produtos SET nome=:nome, descricao=:descricao, preco=:preco, id_categorias=:id_categorias, foto=:foto WHERE id = :id";
@@ -72,9 +73,12 @@ final class ProdutoModel extends Model {
                 "descricao" => $vo->getDescricao(),
                 "preco" => $vo->getPreco(),
                 "id_categorias" => $vo->getId_categorias(),
-                "foto" => $vo->getFoto()
+                "foto" => $vo->getFoto(),
+                "id" => $vo->getId()
             ];
         }
+        echo("<pre>");
+        print_r($binds);
 
         return $db->execute($query, $binds);
     }
@@ -83,7 +87,7 @@ final class ProdutoModel extends Model {
         $db = new Connection();
         $query = "DELETE FROM produtos WHERE id = :id";
         $binds = ["id" => $vo->getId()];
-        (new ProdutoController())->deleteFile(($this->selectOne($vo->getId()))->getFoto());
+        (new ProdutoController())->deleteFile($vo->getFoto());
 
         return $db->execute($query, $binds);
     }

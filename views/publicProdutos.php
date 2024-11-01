@@ -36,7 +36,7 @@
             <button id="open_menu" onclick="menu_interact(this)" class="<?php if ($_SESSION["usuario"]->getNivel() == 1) {echo("hidden");} ?> w-10 h-10 flex justify-center items-center text-2xl rounded-lg text-white transition-all cursor-pointer hover:bg-[#5F86A0] active:bg-[#4E6D84]"><i class="fa-solid fa-gear"></i></button>
             <div class="w-6/12 h-[75%] flex justify-center items-center rounded-3xl cursor-pointer transition-all bg-[#14344B] border-[3px] border-solid border-[#1C4867] hover:bg-[#1C4867] active:bg-[#235B83]">
                 <div class="w-2/6 h-full flex justify-center items-center">
-                    <img src="uploads/<?php echo($_SESSION["usuario"]->getFoto());?>" class="max-w-9 h-9 rounded-full shadow-2xl drop-shadow-2xl border-2 border-solid border-gray-500" alt="">
+                    <img src="uploads/<?php echo((empty($_SESSION["usuario"]->getFoto()) ? "default_avatar.webp" : $_SESSION["usuario"]->getFoto()));?>" class="max-w-9 h-9 rounded-full shadow-2xl drop-shadow-2xl border-2 border-solid border-gray-500" alt="">
                 </div>
                 <div class="w-4/6 h-full flex justify-start items-center">
                     <p class="text-white font-bold text-base">Seu Perfil</p>
@@ -56,7 +56,7 @@
             ?>
             <div class="product_link h-[400px] flex justify-center items-center flex-col cursor-pointer transition-all rounded-lg hover:drop-shadow-2xl shadow-2xl hover:scale-105 bg-[rgb(230,244,253)]">
                 <div class="w-full h-3/5 flex justify-center items-center">
-                    <img src="uploads/duck.webp" class="max-w-[95%] max-h-[95%] rounded-lg border-2 border-solid border-gray-300" alt="">
+                    <img src="uploads/<?php echo((empty($produto->getFoto()) ? "default_product.jpg" : $produto->getFoto()))?>" class="max-w-[95%] max-h-[95%] rounded-lg border-2 border-solid border-gray-300" alt="">
                 </div>
                 <div class="w-full h-2/5 flex justify-center items-center flex-col px-5 pb-2 truncate">
                     <div class="w-full flex justify-center items-start flex-col">

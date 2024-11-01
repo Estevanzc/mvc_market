@@ -43,7 +43,7 @@ final class UsuarioController extends Controller {
     public function save() {
         $id = $_POST["id"];
         $model = new UsuarioModel();
-        $nome_arquivo = $this->uploadFile($_FILES["foto"], empty($id) ? "" : $model->selectOne(new UsuarioVO($id))->getFoto());
+        $nome_arquivo = $this->uploadFile($_FILES["foto"], (empty($id) ? "" : $model->selectOne(new UsuarioVO($id))->getFoto()));
         $vo = new UsuarioVO($id, $_POST["login"], $_POST["senha"], $_POST["nivel"], $nome_arquivo);
 
         if(empty($id)) {

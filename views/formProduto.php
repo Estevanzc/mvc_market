@@ -49,49 +49,49 @@
             <a href="logout.php" class="w-10 h-10 flex justify-center items-center text-2xl rounded-lg text-white transition-all cursor-pointer hover:bg-[#5F86A0] active:bg-[#4E6D84]"><i class="fa-solid fa-right-from-bracket"></i></a>
         </div>
     </section>
-    <main class="mt-16 z-0 w-screen flex justify-center items-center flex-col">
+    <main class="mt-16 z-0 w-screen flex justify-center items-center flex-col gap-y-2">
         <div class="w-1/2 h-24 flex justify-center items-center flex-col gap-y-1">
             <h3 class="text-sm text-gray-800">Home</h3>
-            <h2 class=" text-4xl font-bold drop-shadow-2xl">Gerenciar Produtos</h2>
+            <h2 class=" text-4xl font-bold drop-shadow-2xl"><?php echo((empty($produto->getId()) ? "Inserir" : "Editar"));?> Produtos</h2>
         </div>
-        <div class="w-2/3 h-10 mt-10 flex justify-end items-center">
-            <a href="produto.php?id=0" class="px-5 h-full flex justify-center items-center rounded-sm transition-all cursor-pointer shadow-2xl drop-shadow-2xl hover:bg-[#709DBE] active:bg-[#81B6DB] text-sm text-white font-bold bg-[#5F85A0]">Inserir Produto</a>
-        </div>
-        <div class="w-2/3 mt-1 flex justify-center items-center">
-            <table class="w-full border-collapse shadow-2xl drop-shadow-2xl">
-                <thead class="h-10 bg-[#5F85A2] text-white">
-                    <tr>
-                        <th class="w-[5%] text-center">ID</th>
-                        <th class="w-[15%] text-center">Nome</th>
-                        <th class="w-[35%] text-start">Descricao</th>
-                        <th class="w-[10%] text-center">Preco (R$)</th>
-                        <th class="w-[10%] text-center">Categoria</th>
-                        <th class="w-[15%] text-center">Foto</th>
-                        <th colspan="2" class="w-[10%] text-center">Ações</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $counter = 1;
-                    foreach ($produtos as $produto) {
-                        ?>
-                        <tr class="h-9 bg-[<?php echo($counter % 2 == 0 ? "#96A7B9" : "#ADC1D6") ?>] transition-all cursor-pointer hover:bg-[#96A7B9]">
-                            <td class="text-center font-bold"><?php echo($produto->getId())?></td>
-                            <td class="text-center"><?php echo($produto->getNome())?></td>
-                            <td class="text-center truncate"><p class="max-w-72 truncate"><?php echo($produto->getDescricao())?></p></td>
-                            <td class="text-center"><?php echo($produto->getPreco())?></td>
-                            <td class="text-center"><?php echo($produto->getId_categorias())?></td>
-                            <td class="text-center"><?php echo($produto->getFoto())?></td>
-                            <td class="transition-all hover:bg-[#99B5C9]"><a href="produto.php?id=<?php echo($produto->getId());?>" class="w-full h-full flex justify-center items-center transition-all hover:text-blue-500"><i class="fa-solid fa-pen"></i></a></td>
-                            <td class="transition-all hover:bg-[#99B5C9]"><a href="excluirProduto.php?id=<?php echo($produto->getId());?>" class="w-full h-full flex justify-center items-center transition-all hover:text-red-500"><i class="fa-solid fa-trash"></i></a></td>
-                        </tr>
-                        <?php
-                        $counter ++;
-                    }
-                    ?>
-                </tbody>
-            </table>
+        <div class="w-2/3 flex justify-center items-center">
+            <form action="salvarProduto.php" method="post" enctype="multipart/form-data" class="w-1/2 flex justify-start items-center flex-col bg-[#BCCCD8] gap-y-0.5 rounded-lg shadow-2xl drop-shadow-2xl border-2 border-solid border-[#8A969E]">
+                <input type="hidden" id="id" name="id" value="<?php echo($produto->getId());?>">
+                <div class="mt-3 w-full h-16 flex justify-evenly items-center flex-col">
+                    <label for="nome" class="self-start pl-7 text-sm font-bold">Nome do Produto</label>
+                    <input type="text" name="nome" id="nome" value="<?php echo($produto->getNome());?>" class="w-11/12 h-1/2 border-2 border-solid border-[#8A969E] text-sm px-2 outline-0">
+                </div>
+                <div class="w-full h-16 flex justify-center items-center">
+                    <div class="w-1/2 h-full flex justify-evenly items-center flex-col">
+                        <label for="preco" class="self-start pl-7 text-sm font-bold">Preço do Produto (R$)</label>
+                        <input type="number" min="0" step="0.01" name="preco" id="preco" value="<?php echo($produto->getPreco());?>" class="w-10/12 h-1/2 border-2 border-solid border-[#8A969E] text-sm px-2 outline-0">
+                    </div>
+                    <div class="w-1/2 h-full flex justify-evenly items-center flex-col">
+                        <label for="id_categorias" class="self-start pl-7 text-sm font-bold">Categoria do Produto</label>
+                        <select name="id_categorias" id="id_categorias" class="w-10/12 h-1/2 border-2 border-solid border-[#8A969E] text-sm px-2 outline-0 cursor-pointer">
+                            <?php
+                            foreach ($categorias as $categoria) {
+                                ?>
+                                <option value="<?php echo($categoria->getId())?>" <?php echo(($categoria->getId() == $produto->getId_categorias() ? "selected" : ""))?>><?php echo($categoria->getNome())?></option>
+                                <?php
+                            }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="w-full h-16 flex justify-evenly items-center flex-col">
+                    <label for="foto" class="self-start pl-7 text-sm font-bold">Foto do Produto</label>
+                    <input type="file" name="foto" id="foto" class="w-11/12 h-1/2 text-sm font-semibold px-2 outline-0">
+                </div>
+                <div class="w-full flex justify-evenly items-center flex-col pb-3 gap-y-1">
+                    <label for="descricao" class="self-start pl-7 text-sm font-bold">Descricao do Produto</label>
+                    <textarea name="descricao" id="descricao" class="w-11/12 h-52 border-2 border-solid border-[#8A969E] text-sm p-2 outline-0"><?php echo($produto->getDescricao());?></textarea>
+                </div>
+                <div class="w-full h-16 flex justify-around items-center">
+                    <button type="reset" class="w-1/3 py-2 text-sm font-bold bg-[#325975] text-white rounded-lg border-2 border-solid border-[#3F7092] transition-all cursor-pointer drop-shadow-2xl shadow-2xl hover:bg-[#3F7092] active:bg-[#4B85AE]">Clear</button>
+                    <button type="submit" class="w-1/3 py-2 text-sm font-bold bg-[#325975] text-white rounded-lg border-2 border-solid border-[#3F7092] transition-all cursor-pointer drop-shadow-2xl shadow-2xl hover:bg-[#3F7092] active:bg-[#4B85AE]">Submit</button>
+                </div>
+            </form>
         </div>
     </main>
     <script src="script/menu.js"></script>

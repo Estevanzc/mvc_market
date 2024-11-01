@@ -79,7 +79,7 @@ final class UsuarioModel extends Model {
         $db = new Connection();
         $query = "DELETE FROM usuarios WHERE id = :id";
         $binds = ["id" => $vo->getId()];
-        (new UsuarioController())->deleteFile(($this->selectOne($vo->getId()))->getFoto());
+        (new UsuarioController())->deleteFile($vo->getFoto());
 
         return $db->execute($query, $binds);
     }

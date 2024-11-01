@@ -27,17 +27,18 @@ final class ProdutoController extends Controller {
 
     public function form() {
         $id = $_GET["id"] ?? 0;
-
         if(!empty($id)) {
             $model = new ProdutoModel();
-            $vo = new ProdutoVO();
+            $vo = new ProdutoVO($id);
             $produto = $model->selectOne($vo);
         } else {
             $produto = new ProdutoVO();
         }
+        $categoria = (new CategoriaModel())->selectAll(new CategoriaVO());
 
         $this->loadView("formProduto", [
-            "produto" => $produto
+            "produto" => $produto,
+            "categorias" => $categoria
         ]);
     }
 
@@ -52,11 +53,11 @@ final class ProdutoController extends Controller {
         } else {
             $result = $model->update($vo);
         }
-
-        $this->redirect("produto.php");
+        $this->redirect("produtos.php");
     }
 
     public function remove() {
+        echo($_GET["id"]);
         $vo = new ProdutoVO($_GET["id"]);
         $model = new ProdutoModel();
         $vo = $model->selectOne($vo);
