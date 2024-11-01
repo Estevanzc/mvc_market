@@ -9,7 +9,7 @@ final class ProdutoModel extends Model {
 
     public function selectAll($vo) {
         $db = new Connection();
-        $query = "SELECT * FROM produtos";
+        $query = "SELECT p.id, p.nome, p.descricao, p.preco, c.nome as id_categorias, p.foto FROM produtos p join pro_categorias c on c.id = p.id_categorias";
         $data = $db->select($query);
 
         $arrayDados = [];

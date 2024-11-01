@@ -3,7 +3,7 @@
 namespace Controller;
 
 abstract class Controller {
-    public function __construct($obriga_login = true) {
+    public function __construct($obriga_login = false) {
         if (!isset($_SESSION)) {
             session_start();
             session_regenerate_id();

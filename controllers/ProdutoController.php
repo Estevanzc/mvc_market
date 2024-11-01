@@ -3,15 +3,24 @@
 namespace Controller;
 
 use Model\ProdutoModel;
+use Model\CategoriaModel;
 use Model\VO\ProdutoVO;
+use Model\VO\CategoriaVO;
 
 final class ProdutoController extends Controller {
+
+    private $index_access;
+
+    public function __construct($obriga_login = false, $index_access = false) {
+        parent::__construct($obriga_login);
+        $this->index_access = $index_access;
+    }
 
     public function list() {
         $model = new ProdutoModel();
         $data = $model->selectAll(new ProdutoVO());
 
-        $this->loadView("listaProdutos", [
+        $this->loadView(($this->index_access ? "publicProdutos" : "listaProdutos"), [
             "produtos" => $data
         ]);
     }
