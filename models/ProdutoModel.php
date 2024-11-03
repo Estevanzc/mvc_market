@@ -33,23 +33,15 @@ final class ProdutoModel extends Model {
 
     public function insert($vo) {
         $db = new Connection();
-        if (empty($vo->getFoto())) {
-            $query = "INSERT INTO produtos VALUES (default, :nome, :descricao, :preco, :id_categorias)";
-            $binds = [
-                "nome" => $vo->getNome(),
-                "descricao" => $vo->getDescricao(),
-                "preco" => $vo->getPreco(),
-                "id_categorias" => $vo->getId_categorias()
-            ];
-        } else {
-            $query = "INSERT INTO produtos VALUES (default, :nome, :descricao, :preco, :id_categorias, :foto)";
-            $binds = [
-                "nome" => $vo->getNome(),
-                "descricao" => $vo->getDescricao(),
-                "preco" => $vo->getPreco(),
-                "id_categorias" => $vo->getId_categorias(),
-                "foto" => $vo->getFoto()
-            ];
+        $query = "INSERT INTO produtos VALUES (default, :nome, :descricao, :preco, :id_categorias, ".(empty($vo->getFoto()) ? "null" : ":foto").")";
+        $binds = [
+            "nome" => $vo->getNome(),
+            "descricao" => $vo->getDescricao(),
+            "preco" => $vo->getPreco(),
+            "id_categorias" => $vo->getId_categorias(),
+        ];
+        if (!empty($vo->getFoto())) {
+            $binds["foto"] = $vo->getFoto();
         }
 
         return $db->execute($query, $binds);
@@ -57,28 +49,17 @@ final class ProdutoModel extends Model {
 
     public function update($vo) {
         $db = new Connection();
-        if (empty($vo->getFoto())) {
-            $query = "UPDATE produtos SET nome=:nome, descricao=:descricao, preco=:preco, id_categorias=:id_categorias WHERE id = :id";
-            $binds = [
-                "nome" => $vo->getNome(),
-                "descricao" => $vo->getDescricao(),
-                "preco" => $vo->getPreco(),
-                "id_categorias" => $vo->getId_categorias(),
-                "id" => $vo->getId()
-            ];
-        } else {
-            $query = "UPDATE produtos SET nome=:nome, descricao=:descricao, preco=:preco, id_categorias=:id_categorias, foto=:foto WHERE id = :id";
-            $binds = [
-                "nome" => $vo->getNome(),
-                "descricao" => $vo->getDescricao(),
-                "preco" => $vo->getPreco(),
-                "id_categorias" => $vo->getId_categorias(),
-                "foto" => $vo->getFoto(),
-                "id" => $vo->getId()
-            ];
+        $query = "UPDATE produtos SET nome=:nome, descricao=:descricao, preco=:preco, id_categorias=:id_categorias".(empty($vo->getFoto()) ? "" : ", foto=:foto")." WHERE id = :id";
+        $binds = [
+            "nome" => $vo->getNome(),
+            "descricao" => $vo->getDescricao(),
+            "preco" => $vo->getPreco(),
+            "id_categorias" => $vo->getId_categorias(),
+            "id" => $vo->getId()
+        ];
+        if (!empty($vo->getFoto())) {
+            $binds["foto"] = $vo->getFoto();
         }
-        echo("<pre>");
-        print_r($binds);
 
         return $db->execute($query, $binds);
     }

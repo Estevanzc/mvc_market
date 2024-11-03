@@ -33,21 +33,14 @@ final class UsuarioModel extends Model {
 
     public function insert($vo) {
         $db = new Connection();
-        if (empty($vo->getFoto())) {
-            $query = "INSERT INTO usuarios VALUES (default, :login, :senha, :nivel)";
-            $binds = [
-                "login" => $vo->getLogin(),
-                "senha" => $vo->getSenha(),
-                "nivel" => $vo->getNivel(),
-            ];
-        } else {
-            $query = "INSERT INTO usuarios VALUES (default, :login, :senha, :nivel, :foto)";
-            $binds = [
-                "login" => $vo->getLogin(),
-                "senha" => $vo->getSenha(),
-                "nivel" => $vo->getNivel(),
-                "foto" => $vo->getFoto()
-            ];
+        $query = "INSERT INTO usuarios VALUES (default, :login, :senha, :nivel, ".(empty($vo->getFoto()) ? "null" : ":foto").")";
+        $binds = [
+            "login" => $vo->getLogin(),
+            "senha" => md5($vo->getSenha()),
+            "nivel" => $vo->getNivel(),
+        ];
+        if (!empty($vo->getFoto())) {
+            $binds["foto"] = $vo->getFoto();
         }
 
         return $db->execute($query, $binds);
@@ -55,21 +48,17 @@ final class UsuarioModel extends Model {
 
     public function update($vo) {
         $db = new Connection();
-        if (empty($vo->getFoto())) {
-            $query = "UPDATE usuarios SET login=:login, senha=:senha, nivel=:nivel WHERE id = :id";
-            $binds = [
-                "login" => $vo->getLogin(),
-                "senha" => $vo->getSenha(),
-                "nivel" => $vo->getNivel(),
-            ];
-        } else {
-            $query = "UPDATE usuarios SET login=:login, senha=:senha, nivel=:nivel, foto=:foto WHERE id = :id";
-            $binds = [
-                "login" => $vo->getLogin(),
-                "senha" => $vo->getSenha(),
-                "nivel" => $vo->getNivel(),
-                "foto" => $vo->getFoto()
-            ];
+        $query = "UPDATE usuarios SET login=:login,".(empty($vo->getSenha()) ? "" : " senha=:senha,")." nivel=:nivel".(empty($vo->getFoto()) ? "" : ", foto=:foto")." WHERE id = :id";
+        $binds = [
+            "id" => $vo->getId(),
+            "login" => $vo->getLogin(),
+            "nivel" => $vo->getNivel(),
+        ];
+        if (!empty($vo->getFoto())) {
+            $binds["foto"] = $vo->getFoto();
+        }
+        if (!empty($vo->getSenha())) {
+            $binds["senha"] = md5($vo->getSenha());
         }
 
         return $db->execute($query, $binds);

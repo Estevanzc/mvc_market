@@ -20,6 +20,9 @@ final class LoginController extends Controller {
         $vo = new UsuarioVO(0, $_POST["login"], $_POST["senha"]);
         $model = new UsuarioModel();
         $result = $model->doLogin($vo);
+        echo("<pre>");
+        print_r($vo);
+        print_r($result);
         if (empty($result)) {
             $this->redirect("login.php");
         } else {

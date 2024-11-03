@@ -22,15 +22,15 @@ final class CategoriaController extends Controller {
 
     public function form() {
         $id = $_GET["id"] ?? 0;
+        echo ($id);
 
         if(!empty($id)) {
             $model = new CategoriaModel();
-            $vo = new CategoriaVO();
+            $vo = new CategoriaVO($id);
             $categoria = $model->selectOne($vo);
         } else {
             $categoria = new CategoriaVO();
         }
-
         $this->loadView("formCategoria", [
             "categoria" => $categoria
         ]);

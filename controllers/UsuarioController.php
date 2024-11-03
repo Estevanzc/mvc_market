@@ -7,14 +7,6 @@ use Model\VO\UsuarioVO;
 
 final class UsuarioController extends Controller {
 
-    public function __construct($obriga_login = false) {
-        parent::__construct($obriga_login);
-        if ($_SESSION["usuario"]->getNivel() < 2) {
-            $this->redirect("index.php");
-            exit();
-        }
-    }
-
     public function list() {
         $model = new UsuarioModel();
         $data = $model->selectAll(new UsuarioVO());

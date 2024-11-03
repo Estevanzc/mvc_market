@@ -44,6 +44,7 @@ final class CategoriaModel extends Model {
         $db = new Connection();
         $query = "UPDATE pro_categorias SET nome=:nome WHERE id = :id";
         $binds = [
+            "id" => $vo->getId(),
             "nome" => $vo->getNome()
         ];
 

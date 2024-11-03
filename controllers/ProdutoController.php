@@ -11,8 +11,8 @@ final class ProdutoController extends Controller {
 
     private $index_access;
 
-    public function __construct($obriga_login = false, $index_access = false) {
-        parent::__construct($obriga_login);
+    public function __construct($obriga_login = false, $restricted = false, $index_access = false) {
+        parent::__construct($obriga_login, $restricted);
         $this->index_access = $index_access;
     }
 
